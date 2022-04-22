@@ -19,6 +19,7 @@ class Ticket extends Model
         'content',
         'status',
         'user_id',
+        'service'
     ];
 
     public function answers(){

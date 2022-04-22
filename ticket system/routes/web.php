@@ -42,6 +42,8 @@ Route::get('/', function () {
 // })->middleware(['auth'])->name('dashboard');
 
 Route::get('/home',[TicketController::class, 'home'])->middleware(['auth'])->name('user.home');
+Route::get('/add_ticket',[TicketController::class, 'addTicket'])->middleware(['auth'])->name('user.add_ticket');
+Route::post('/add_ticket_db',[TicketController::class, 'addTicketDB'])->middleware(['auth'])->name('user.add_ticket_db');
 
 
 require __DIR__.'/auth.php';
