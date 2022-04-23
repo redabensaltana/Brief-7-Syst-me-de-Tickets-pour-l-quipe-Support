@@ -37,4 +37,16 @@ class TicketController extends Controller
         
         return redirect()->route('user.home');
     }
+
+    public function ticket($id){
+        $ticket = Ticket::findorfail($id);
+        
+        $answers = DB::table('answers')
+            ->select('answers.*')
+            ->where('ticket_id', '=', $id)
+            // ->where('user_id', '=', Auth::user()->id) no need
+            ->get();
+        return view('user.ticket_answers',["ticket"=>$ticket, "answers"=>$answers]);
+    }
+
 }

@@ -11,7 +11,17 @@ class Answer extends Model
 
     protected $fillable = [
         'id',
-        'content'
+        'content',
+        'ticket_id',
+        'user_id',
+        'is_admin'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function ticket(){
+        return $this->belongsTo(Ticket::class);
+    }
 
 }

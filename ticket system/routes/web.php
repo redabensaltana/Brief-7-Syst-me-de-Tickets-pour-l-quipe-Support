@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\TicketController;
+use App\Models\Ticket;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,7 +46,8 @@ Route::get('/', function () {
 Route::get('/home',[TicketController::class, 'home'])->middleware(['auth'])->name('user.home');
 Route::get('/add_ticket',[TicketController::class, 'addTicket'])->middleware(['auth'])->name('user.add_ticket');
 Route::post('/add_ticket_db',[TicketController::class, 'addTicketDB'])->middleware(['auth'])->name('user.add_ticket_db');
-
+Route::get('/ticket_answers/{id}',[TicketController::class, 'ticket'])->middleware(['auth'])->name('user.ticket_answers');
+Route::post('/add_answer_db',[AnswerController::class, 'addAnswerDB'])->middleware(['auth'])->name('user.add_answer_db');
 
 require __DIR__.'/auth.php';
   

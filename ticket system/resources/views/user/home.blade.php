@@ -29,7 +29,7 @@
         <section class="content">
             <div class="container is-flex is-justify-content-center" style="position: sticky;top: 0px;z-index : 9;">
                 
-                     <a class="button is-primary is-large is-rounded my-6" style="border: 5px solid rgb(255, 255, 255)" href="{{ route('user.add_ticket') }}">add ticket</a>
+                     <a class="button is-primary is-large is-rounded my-6" style="border: 5px solid rgb(255, 255, 255);box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.11);" href="{{ route('user.add_ticket') }}">add ticket</a>
                 
             </div>
             
@@ -38,8 +38,14 @@
                 @foreach ($tickets as $ticket)
                     <div class="card mb-6 has-background-white-ter">
                         <header class="card-header">
-                        <p class="card-header-title">
-                            ticket {{ $ticket->id }}
+                        <p class="card-header-title is-justify-content-center has-text-weight-medium mb-0">
+                            {{ $ticket->service }}
+                        </p>
+                        <time class="card-header-title is-justify-content-center has-text-weight-normal">
+                            {{ $ticket->created_at }}
+                        </time>
+                        <p class="card-header-title is-justify-content-center has-text-weight-medium">
+                            {{ $ticket->status }}
                         </p>
                         </header>
                         <div class="card-content">
@@ -47,11 +53,11 @@
                             <h5>{{ $ticket->title }}</h5>
                             <p>{{ $ticket->content }}</p>
                             <br>
-                            <time>{{ $ticket->created_at }}</time>
                         </div>
                         </div>
                         <footer class="card-footer">
                         <a href="#" class="card-footer-item">set as solved</a>
+                        <a href="{{ route('user.ticket_answers',["id"=>$ticket->id]) }}" class="card-footer-item">see ticket</a>
                         <a href="#" class="card-footer-item">add answer</a>
                         </footer>
                     </div>
