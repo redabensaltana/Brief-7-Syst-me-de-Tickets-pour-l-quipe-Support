@@ -18,6 +18,24 @@ class TicketController extends Controller
         return view('user.home',['tickets' => $tickets]);
     }
 
+    public function adminDashboard(){
+        $tickets = Ticket::all();
+
+        return view('admin.index',['tickets'=>$tickets]);
+    }
+
+    public function adminTicket($id){
+        $ticket = Ticket::findorfail($id);
+
+        $answers = DB::table('answers')
+        ->join('users', 'answers.user_id', '=', 'users.id')
+        ->select('answers.content','answers.is_admin', 'users.name' , 'users.id')
+        ->where('ticket_id', '=', $id)
+        ->get();
+
+        return view('admin.ticket_answers',["ticket"=>$ticket, "answers"=>$answers]);
+    }
+
     public function addTicket(){
         return view('user.add_ticket');
     }
@@ -46,7 +64,25 @@ class TicketController extends Controller
             ->where('ticket_id', '=', $id)
             // ->where('user_id', '=', Auth::user()->id) no need
             ->get();
+
         return view('user.ticket_answers',["ticket"=>$ticket, "answers"=>$answers]);
+
     }
 
+    public function setToSolved($id){
+        $ticket = Ticket::find($id);
+        $ticket->status = 'solved';
+        $ticket->save();
+
+        return back();
+    }
+
+    public function setToClosed($id){
+
+        $ticket = Ticket::find($id);
+        $ticket->status = 'closed';
+        $ticket->save();
+
+        return back();
+    }
 }

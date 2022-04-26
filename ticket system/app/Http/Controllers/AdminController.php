@@ -12,10 +12,6 @@ class AdminController extends Controller
         return view('admin.admin_login');
     }
 
-    public function Dashboard(){
-        return view('admin.index');
-    }
-
     public function Login(Request $request){
         // dd($request->all());
         // dd($check['email']);

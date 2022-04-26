@@ -23,8 +23,11 @@ Route::prefix('admin')->group(function(){
 
     Route::get('/login',[AdminController::class, 'Index'])->name('login_form');
     Route::post('/login/owner',[AdminController::class, 'Login'])->name('admin.login');
-    Route::get('/dashboard',[AdminController::class, 'Dashboard'])->name('admin.dashboard')->middleware('admin');
+    Route::get('/dashboard',[TicketController::class, 'adminDashboard'])->name('admin.dashboard')->middleware('admin');
     Route::get('/logout',[AdminController::class, 'AdminLogout'])->name('admin.logout')->middleware('admin');
+    Route::get('/ticket_answers/{id}',[TicketController::class, 'adminTicket'])->middleware('admin')->name('admin.ticket_answers');
+    Route::post('/add_answer_db',[AnswerController::class, 'adminAddAnswerDB'])->middleware('admin')->name('admin.add_answer_db');
+    Route::get('/ticket_set_to_closed/{id}',[TicketController::class, 'setToClosed'])->middleware('admin')->name('admin.ticket_set_to_closed');
 
 });
 
@@ -47,6 +50,7 @@ Route::get('/home',[TicketController::class, 'home'])->middleware(['auth'])->nam
 Route::get('/add_ticket',[TicketController::class, 'addTicket'])->middleware(['auth'])->name('user.add_ticket');
 Route::post('/add_ticket_db',[TicketController::class, 'addTicketDB'])->middleware(['auth'])->name('user.add_ticket_db');
 Route::get('/ticket_answers/{id}',[TicketController::class, 'ticket'])->middleware(['auth'])->name('user.ticket_answers');
+Route::get('/ticket_set_to_solved/{id}',[TicketController::class, 'setToSolved'])->middleware(['auth'])->name('user.ticket_set_to_solved');
 Route::post('/add_answer_db',[AnswerController::class, 'addAnswerDB'])->middleware(['auth'])->name('user.add_answer_db');
 
 require __DIR__.'/auth.php';

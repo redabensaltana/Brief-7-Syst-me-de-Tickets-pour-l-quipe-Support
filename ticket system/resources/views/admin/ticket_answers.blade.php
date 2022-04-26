@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background-color: rgb(16, 16, 16);height:100%;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
 <body class="pb-6">
     <nav class="navbar is-black px-6">
         <div class="is-size-4 m-2 is-flex">
-            <a href="{{ route('user.home') }}" style="font-size: 0">
+            <a href="{{ route('admin.dashboard') }}" style="font-size: 0">
                 <img style="height: 3rem" src="{{ asset('img/1NHTWy1Awh3Vpt-mztoP.png')}}" alt="">
             </a>
         </div>
@@ -21,9 +21,9 @@
             <div class="navbar-end">
                 <div class="navbar-item has-dropdown is-hoverable">
                     <i class="fa-solid fa-circle has-text-success navbar-item is-size-7 px-0"></i>
-                    <a class="navbar-link pl-2">{{ auth()->user()->name }}</a>
+                    <a class="navbar-link pl-2">{{ Auth::guard('admin')->user()->name }}</a>
                     <div class="navbar-dropdown">
-                            <a class="navbar-item" href="{{ route('logout') }}">logout<i class="fas fa-sign-out-alt ml-2"></i></a>
+                            <a class="navbar-item" href="{{ route('admin.logout') }}">logout<i class="fas fa-sign-out-alt ml-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
     <section class="container is-justify-content-center is-max-desktop">
         <div class="mt-6">
 
-            <div class="card">
+            <div class="card ">
                 <div class="card-header-title">
                     {{$ticket->title}}
                 </div>
@@ -43,20 +43,12 @@
                   </div>
                 </div>
                 <footer class="card-footer">
-
-                    @if ($ticket->status == 'solved')
-                         <a class=" card-footer-item isDisabled" href="#">set to solved</a>
-                    @elseif ($ticket->status == 'closed')
-                        <strong class="card-footer-item">Closed</strong>     
-                    @else
-                         <a href="{{ route('user.ticket_set_to_solved',["id"=>$ticket->id]) }}" class="card-footer-item">set to solved</a>       
-                    @endif
-                
+                    <a href="{{ route('admin.ticket_set_to_closed',["id"=>$ticket->id])}}" class="card-footer-item">close ticket</a>
                 </footer>
                 
             </div>
 
-            <div class="content mt-6">
+            <div class="content mt-6 has-text-white">
                 
                 @foreach ($answers as $answer)
                     
@@ -69,7 +61,7 @@
                   <hr>
                 @else
                 <p>
-                    <strong>me</strong>
+                    <strong class="has-text-primary">{{ $answer->name }}</strong>
                     <br>
                     {{ $answer->content }}
                   </p>
@@ -79,12 +71,9 @@
 
                 @endforeach
 
-                
                 {{-- Answering part --}}
-
-                @if ($ticket->status != 'closed')
                 <div class="media-content" id="answer-form">
-                    <form action="{{ route('user.add_answer_db') }}" method="post">
+                    <form action="{{ route('admin.add_answer_db') }}" method="post">
                         @csrf
                         <div class="field">
 
@@ -92,6 +81,7 @@
                                 Answer
                                 <textarea name="content" class="textarea" placeholder="Add an answer..."></textarea>
                                 <input name="ticket_id" type="hidden" value="{{ $ticket->id }}">
+                                <input name="user_id" type="hidden" value="{{ $answer->id }}">
                             </p>
                         </div>
                         <div class="level-left">
@@ -101,9 +91,6 @@
                         </div>
                     </form>
                 </div>
-                @endif
-                
-                
             </div>
         </div>
         
@@ -111,10 +98,4 @@
     </section>
 
 </body>
-<style>
-    .isDisabled {
-        color: currentColor;
-        cursor: not-allowed;
-        }
-    </style>
 </html>

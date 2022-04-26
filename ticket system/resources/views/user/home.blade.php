@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background-color: rgb(240, 240, 240);height:100%;">
 
     <head>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.css" integrity="sha512-E+53kXnJyuZFSz75xSmTfCpUNj3gp9Bd80TeQQMTPJTVWDRHPOpEYczGwWtsZXvaiz27cqvhdH8U+g/NMYua3A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <title>home</title>
     </head>
-    <body style="background-color: rgb(240, 240, 240);height:100%;">
+    <body class="pb-6">
         
         <nav class="navbar is-black px-6">
             <div class="is-size-4 m-2 is-flex">
@@ -56,7 +57,14 @@
                         </div>
                         </div>
                         <footer class="card-footer">
-                        <a href="#" class="card-footer-item">set as solved</a>
+                            @if ($ticket->status == 'closed' || $ticket->status == 'solved')
+                        <a class=" card-footer-item isDisabled" href="#">set to solved</a>
+                                
+                            @else
+                        <a href="{{ route('user.ticket_set_to_solved',["id"=>$ticket->id]) }}" class="card-footer-item">set to solved</a>
+                                
+                            @endif
+
                         <a href="{{ route('user.ticket_answers',["id"=>$ticket->id]) }}" class="card-footer-item">see ticket</a>
                         <a href="#" class="card-footer-item">add answer</a>
                         </footer>
@@ -68,4 +76,11 @@
         </section>
     
     </body>
+
+    <style>
+    .isDisabled {
+        color: currentColor;
+        cursor: not-allowed;
+        }
+    </style>
 </html>
